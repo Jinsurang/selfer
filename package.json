@@ -20,8 +20,9 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.14",
-    "vercel": "^44.7.3",
+    "@cloudflare/next-on-pages": "^1.13.16",
+    "@cloudflare/workers-types": "^4.20241112.1",
+    "vercel": "^44.3.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
