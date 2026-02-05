@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 export const runtime = 'edge';
+import { NextRequest, NextResponse } from 'next/server';
 import { store, Participant } from '@/lib/store';
 
 export async function POST(

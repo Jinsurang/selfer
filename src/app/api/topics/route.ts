@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 export const runtime = 'edge';
+import { NextRequest, NextResponse } from 'next/server';
 import { store } from '@/lib/store';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
