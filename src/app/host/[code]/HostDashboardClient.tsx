@@ -129,7 +129,7 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                                     <LayoutDashboard className="w-6 h-6 text-[#3182f6]" />
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-black text-[#191f28] tracking-tight">아이스브레이킹 주제</h2>
+                                    <h2 className="text-2xl font-black text-[#191f28] tracking-tight">생성된 대화 주제</h2>
                                     <p className="text-sm text-[#8b95a1] font-bold">AI가 참가자들의 특성을 분석해 대화를 제안합니다.</p>
                                 </div>
                             </div>

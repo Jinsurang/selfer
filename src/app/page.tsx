@@ -51,7 +51,7 @@ export default function LandingPage() {
               </div>
             </div>
             <h1 className="toss-title">
-              아이스브레이킹,<br />현명하게 시작하세요
+              현명하게 시작하세요
             </h1>
             <p className="toss-subtitle">
               어색한 첫 만남을<br />AI가 추천하는 주제로 자연스럽게 바꾸세요.

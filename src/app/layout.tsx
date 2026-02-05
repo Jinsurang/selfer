@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Selfer - AI 아이스브레이킹",
+  title: "Selfer",
   description: "AI가 제안하는 스마트한 대화 주제, 셀퍼(Selfer)",
 };
 
