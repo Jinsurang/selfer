@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f2f4f6;
+  --card: #ffffff;
+  --foreground: #191f28;
+  --accent: #3182f6;
+  --accent-hover: #1b64da;
+  --text-main: #191f28;
+  --text-sub: #4e5968;
+  --text-light: #8b95a1;
+  --border: #e5e8eb;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Pretendard', 'Inter', -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.toss-card {
+  background: var(--card);
+  border-radius: 24px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.toss-btn {
+  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2;
+}
+
+.toss-btn-primary {
+  @apply toss-btn bg-[#3182f6] text-white hover:bg-[#1b64da];
+}
+
+.toss-btn-secondary {
+  @apply toss-btn bg-[#e8f3ff] text-[#3182f6] hover:bg-[#d0e8ff];
+}
+
+.toss-btn-ghost {
+  @apply toss-btn bg-white text-[#4e5968] border border-[#e5e8eb] hover:bg-[#f9fafb];
+}
+
+.toss-input {
+  @apply w-full px-4 py-4 rounded-[16px] border border-transparent bg-[#f9fafb] text-[#191f28] placeholder-[#8b95a1] outline-none focus:bg-white focus:border-[#3182f6] transition-all;
+}
+
+.toss-label {
+  @apply text-sm font-semibold text-[#4e5968] mb-2 block ml-1;
+}
+
+.toss-badge {
+  @apply px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1;
+}
+
+.toss-badge-blue {
+  @apply toss-badge bg-[#e8f3ff] text-[#3182f6];
+}
+
+.toss-title {
+  @apply text-3xl font-bold text-[#191f28] leading-tight;
+}
+
+.toss-subtitle {
+  @apply text-lg text-[#4e5968] leading-relaxed;
+}
