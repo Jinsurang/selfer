@@ -56,23 +56,23 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
     if (!channel) return <div className="p-20 text-center text-[#8b95a1] font-medium">데이터를 불러오는 중...</div>;
 
     return (
-        <main className="min-h-screen bg-[#f2f4f6] p-6 md:p-12">
+        <main className="min-h-screen bg-[var(--background)] p-6 md:p-12">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
 
                 {/* Left Column: QR & Participants */}
                 <aside className="lg:w-[320px] lg:shrink-0 space-y-6">
                     <div className="toss-card p-8 flex flex-col items-center">
-                        <span className="text-[#8b95a1] text-xs font-black uppercase tracking-widest mb-2">Channel Code</span>
-                        <h1 className="text-4xl font-black text-[#3182f6] tracking-tight mb-8 font-mono">{code}</h1>
+                        <span className="text-[var(--text-light)] text-xs font-black uppercase tracking-widest mb-2">Channel Code</span>
+                        <h1 className="text-4xl font-black text-[var(--accent)] tracking-tight mb-8 font-mono">{code}</h1>
 
-                        <div className="p-3 bg-white border border-[#f2f4f6] rounded-3xl shadow-sm mb-6">
+                        <div className="p-3 bg-white border border-[var(--border)] rounded-3xl shadow-sm mb-6">
                             <QRCodeSVG value={joinUrl} size={180} />
                         </div>
 
                         <div className="w-full space-y-4">
-                            <p className="text-xs text-[#8b95a1] text-center font-bold">QR 코드를 스캔하여 입장하세요</p>
-                            <div className="flex items-center gap-2 p-3 bg-[#f9fafb] rounded-xl text-[11px] font-medium text-[#4e5968] break-all border border-[#f2f4f6]">
-                                <Share2 className="w-3 h-3 text-[#3182f6] shrink-0" />
+                            <p className="text-xs text-[var(--text-light)] text-center font-bold">QR 코드를 스캔하여 입장하세요</p>
+                            <div className="flex items-center gap-2 p-3 bg-[var(--background)] rounded-xl text-[11px] font-medium text-[var(--text-sub)] break-all border border-[var(--border)]">
+                                <Share2 className="w-3 h-3 text-[var(--accent)] shrink-0" />
                                 {joinUrl.replace('http://', '').replace('https://', '')}
                             </div>
                         </div>
@@ -80,10 +80,10 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
 
                     <div className="toss-card p-6">
                         <div className="flex items-center justify-between mb-6">
-                            <h3 className="font-bold text-[#191f28] flex items-center gap-2">
-                                <Users className="w-5 h-5 text-[#3182f6]" />
+                            <h3 className="font-bold text-[var(--text-main)] flex items-center gap-2">
+                                <Users className="w-5 h-5 text-[var(--accent)]" />
                                 참여 중
-                                <span className="text-[#3182f6] ml-1">{channel.participants.length}</span>
+                                <span className="text-[var(--accent)] ml-1">{channel.participants.length}</span>
                             </h3>
                         </div>
 
@@ -94,14 +94,14 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                                         key={p.id}
                                         initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
-                                        className="flex items-center gap-3 p-4 bg-[#f9fafb] rounded-[18px] border border-transparent hover:border-[#3182f6]/20 transition-all"
+                                        className="flex items-center gap-3 p-4 bg-[var(--background)] rounded-[18px] border border-transparent hover:border-[var(--accent)]/20 transition-all"
                                     >
-                                        <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-black text-[#3182f6] text-sm shadow-sm border border-[#f2f4f6]">
+                                        <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-black text-[var(--accent)] text-sm shadow-sm border border-[var(--border)]">
                                             {p.name[0]}
                                         </div>
                                         <div>
-                                            <p className="font-bold text-sm text-[#191f28]">{p.name}</p>
-                                            <p className="text-[10px] text-[#8b95a1] font-medium">
+                                            <p className="font-bold text-sm text-[var(--text-main)]">{p.name}</p>
+                                            <p className="text-[10px] text-[var(--text-light)] font-medium">
                                                 {p.job || '직업 미입력'} · {p.mbti || 'MBTI 미입력'}
                                             </p>
                                         </div>
@@ -110,10 +110,10 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                             </AnimatePresence>
                             {channel.participants.length === 0 && (
                                 <div className="text-center py-10 space-y-3">
-                                    <div className="w-12 h-12 bg-[#f2f4f6] rounded-full flex items-center justify-center mx-auto">
-                                        <Users className="w-6 h-6 text-[#adb5bd]" />
+                                    <div className="w-12 h-12 bg-[var(--background)] rounded-full flex items-center justify-center mx-auto">
+                                        <Users className="w-6 h-6 text-[var(--text-light)]" />
                                     </div>
-                                    <p className="text-sm text-[#8b95a1] font-bold tracking-tight">첫 번째 참여자를<br />기다리고 있어요</p>
+                                    <p className="text-sm text-[var(--text-light)] font-bold tracking-tight">첫 번째 참여자를<br />기다리고 있어요</p>
                                 </div>
                             )}
                         </div>
@@ -125,12 +125,12 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                     <div className="toss-card p-10 min-h-[600px] flex flex-col">
                         <header className="flex items-center justify-between mb-16">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-[#e8f3ff] rounded-2xl flex items-center justify-center">
-                                    <LayoutDashboard className="w-6 h-6 text-[#3182f6]" />
+                                <div className="w-12 h-12 bg-[#E8E2D2] rounded-2xl flex items-center justify-center">
+                                    <LayoutDashboard className="w-6 h-6 text-[var(--accent)]" />
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-black text-[#191f28] tracking-tight">생성된 대화 주제</h2>
-                                    <p className="text-sm text-[#8b95a1] font-bold">AI가 참가자들의 특성을 분석해 대화를 제안합니다.</p>
+                                    <h2 className="text-2xl font-black text-[var(--text-main)] tracking-tight">생성된 대화 주제</h2>
+                                    <p className="text-sm text-[var(--text-light)] font-bold">AI가 참가자들의 특성을 분석해 대화를 제안합니다.</p>
                                 </div>
                             </div>
                             <button
@@ -155,7 +155,7 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                                         <div className="flex justify-center">
                                             <span className="toss-badge-blue px-4 py-2 text-sm">Question {channel.currentTopicIndex + 1}</span>
                                         </div>
-                                        <h1 className="text-4xl md:text-5xl font-black text-center leading-[1.3] text-[#191f28] tracking-tighter">
+                                        <h1 className="text-4xl md:text-5xl font-black text-center leading-[1.3] text-[var(--text-main)] tracking-tighter">
                                             "{channel.topics[channel.currentTopicIndex]}"
                                         </h1>
                                     </motion.div>
@@ -166,7 +166,7 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                                                 await fetch(`/api/channels?code=${code}&action=next`, { method: 'PATCH' });
                                                 fetchChannel();
                                             }}
-                                            className="group flex items-center gap-3 text-[#3182f6] text-xl font-bold hover:gap-6 transition-all"
+                                            className="group flex items-center gap-3 text-[var(--accent)] text-xl font-bold hover:gap-6 transition-all"
                                         >
                                             다음 주제로 넘어가기
                                             <ChevronRight className="w-6 h-6" />
@@ -176,19 +176,19 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                             ) : (
                                 <div className="text-center space-y-8">
                                     <div className="relative">
-                                        <div className="absolute inset-0 bg-[#3182f6]/5 blur-3xl rounded-full scale-150" />
-                                        <div className="relative w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center mx-auto border border-[#f2f4f6]">
-                                            <Users className={`w-12 h-12 ${channel.participants.length >= (channel.targetParticipants || 2) ? 'text-[#3182f6]' : 'text-[#e5e8eb]'}`} />
+                                        <div className="absolute inset-0 bg-[#1B4332]/5 blur-3xl rounded-full scale-150" />
+                                        <div className="relative w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center mx-auto border border-[var(--border)]">
+                                            <Users className={`w-12 h-12 ${channel.participants.length >= (channel.targetParticipants || 2) ? 'text-[var(--accent)]' : 'text-[#e5e8eb]'}`} />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <h2 className="text-2xl font-black text-[#191f28]">
+                                        <h2 className="text-2xl font-black text-[var(--text-main)]">
                                             {channel.participants.length >= (channel.targetParticipants || 2)
                                                 ? '대화를 시작할 준비가 되었습니다!'
                                                 : '참가자들을 모으고 있습니다'}
                                         </h2>
-                                        <p className="text-[#8b95a1] font-bold">
+                                        <p className="text-[var(--text-light)] font-bold">
                                             {channel.participants.length} / {channel.targetParticipants || 2} 명 입장 완료
                                         </p>
                                     </div>
@@ -197,7 +197,7 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                                         {[...Array(channel.targetParticipants || 2)].map((_, i) => (
                                             <div
                                                 key={i}
-                                                className={`w-3 h-3 rounded-full transition-all duration-500 ${i < channel.participants.length ? 'bg-[#3182f6] scale-125' : 'bg-[#e5e8eb]'}`}
+                                                className={`w-3 h-3 rounded-full transition-all duration-500 ${i < channel.participants.length ? 'bg-[var(--accent)] scale-125' : 'bg-[#e5e8eb]'}`}
                                             />
                                         ))}
                                     </div>

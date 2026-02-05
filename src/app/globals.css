@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f2f4f6;
-  --card: #ffffff;
-  --foreground: #191f28;
-  --accent: #3182f6;
-  --accent-hover: #1b64da;
-  --text-main: #191f28;
-  --text-sub: #4e5968;
-  --text-light: #8b95a1;
-  --border: #e5e8eb;
+  --background: #F7F3E9;
+  /* Warm Beige */
+  --card: #FFFFFF;
+  --foreground: #1B4332;
+  /* Deep Green for text */
+  --accent: #1B4332;
+  /* Deep Green primary */
+  --accent-hover: #143225;
+  --text-main: #1B4332;
+  --text-sub: #4A5D4E;
+  --text-light: #9CAA9D;
+  --border: #E8E2D2;
 }
 
 body {
@@ -23,45 +26,38 @@ body {
 .toss-card {
   background: var(--card);
   border-radius: 24px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.01);
-}
-
-.toss-btn {
-  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2;
+  box-shadow: 0 8px 32px rgba(27, 67, 50, 0.05);
+  /* Soft deep green shadow */
 }
 
 .toss-btn-primary {
-  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-[#3182f6] text-white hover:bg-[#1b64da];
+  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-[#1B4332] text-[#F7F3E9] hover:bg-[#143225];
 }
 
 .toss-btn-secondary {
-  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-[#e8f3ff] text-[#3182f6] hover:bg-[#d0e8ff];
+  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-[#E8E2D2] text-[#1B4332] hover:bg-[#DAD4C4];
 }
 
 .toss-btn-ghost {
-  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-white text-[#4e5968] border border-[#e5e8eb] hover:bg-[#f9fafb];
+  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-white text-[#4A5D4E] border border-[#E8E2D2] hover:bg-[#F7F3E9];
 }
 
 .toss-input {
-  @apply w-full px-4 py-4 rounded-[16px] border border-transparent bg-[#f9fafb] text-[#191f28] placeholder-[#8b95a1] outline-none focus:bg-white focus:border-[#3182f6] transition-all;
+  @apply w-full px-4 py-4 rounded-[16px] border border-transparent bg-[#F2EDE1] text-[#1B4332] placeholder-[#9CAA9D] outline-none focus:bg-white focus:border-[#1B4332] transition-all;
 }
 
 .toss-label {
-  @apply text-sm font-semibold text-[#4e5968] mb-2 block ml-1;
-}
-
-.toss-badge {
-  @apply px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 opacity-100;
+  @apply text-sm font-semibold text-[#4A5D4E] mb-2 block ml-1;
 }
 
 .toss-badge-blue {
-  @apply px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 bg-[#e8f3ff] text-[#3182f6];
+  @apply px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 bg-[#E8E2D2] text-[#1B4332];
 }
 
 .toss-title {
-  @apply text-3xl font-bold text-[#191f28] leading-tight;
+  @apply text-3xl font-bold text-[#1B4332] leading-tight;
 }
 
 .toss-subtitle {
-  @apply text-lg text-[#4e5968] leading-relaxed;
+  @apply text-lg text-[#4A5D4E] leading-relaxed;
 }

@@ -80,7 +80,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
     );
 
     return (
-        <main className="min-h-screen bg-[#f2f4f6] flex flex-col items-center p-6">
+        <main className="min-h-screen bg-[var(--background)] flex flex-col items-center p-6">
             <AnimatePresence mode="wait">
                 {!joined ? (
                     <motion.div
@@ -92,7 +92,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
                         <div className="text-center space-y-3">
                             <h1 className="toss-title">만나서 반가워요!</h1>
                             <p className="toss-subtitle">
-                                채널 <span className="text-[#3182f6] font-black">{code}</span> 정보 입력을 위해<br />프로필을 작성해 주세요.
+                                채널 <span className="text-[var(--accent)] font-black">{code}</span> 정보 입력을 위해<br />프로필을 작성해 주세요.
                             </p>
                         </div>
 
@@ -132,7 +132,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
                                             <option value="">선택 안 함</option>
                                             {MBTIs.map(m => <option key={m} value={m}>{m}</option>)}
                                         </select>
-                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#8b95a1]">
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--text-light)]">
                                             <ChevronRight className="w-5 h-5 rotate-90" />
                                         </div>
                                     </div>
@@ -163,7 +163,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
                             <h1 className="toss-title">대화가 시작되면<br />여기에 주제가 나타나요</h1>
                         </div>
 
-                        <div className="toss-card p-10 flex flex-col items-center justify-center min-h-[350px] text-center border-l-[8px] border-[#3182f6]">
+                        <div className="toss-card p-10 flex flex-col items-center justify-center min-h-[350px] text-center border-l-[8px] border-[var(--accent)]">
                             {channel?.topics && channel.topics.length > 0 ? (
                                 <motion.div
                                     key={channel.currentTopicIndex}
@@ -171,32 +171,32 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
                                     animate={{ opacity: 1, scale: 1 }}
                                     className="space-y-6"
                                 >
-                                    <div className="w-16 h-16 bg-[#e8f3ff] rounded-3xl flex items-center justify-center mx-auto mb-4">
-                                        <MessageCircle className="w-8 h-8 text-[#3182f6]" />
+                                    <div className="w-16 h-16 bg-[#E8E2D2] rounded-3xl flex items-center justify-center mx-auto mb-4">
+                                        <MessageCircle className="w-8 h-8 text-[var(--accent)]" />
                                     </div>
-                                    <p className="text-sm font-black text-[#3182f6] uppercase tracking-[0.2em]">Current Question</p>
-                                    <h2 className="text-3xl md:text-4xl font-black leading-snug text-[#191f28] tracking-tighter">
+                                    <p className="text-sm font-black text-[var(--accent)] uppercase tracking-[0.2em]">Current Question</p>
+                                    <h2 className="text-3xl md:text-4xl font-black leading-snug text-[var(--text-main)] tracking-tighter">
                                         "{channel.topics[channel.currentTopicIndex]}"
                                     </h2>
                                 </motion.div>
                             ) : (
                                 <div className="space-y-6">
                                     <div className="relative">
-                                        <div className="absolute inset-0 bg-[#3182f6]/5 blur-3xl rounded-full" />
-                                        <div className="relative w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto animate-pulse border border-[#f2f4f6]">
-                                            <MessageCircle className="w-10 h-10 text-[#e5e8eb]" />
+                                        <div className="absolute inset-0 bg-[#1B4332]/5 blur-3xl rounded-full" />
+                                        <div className="relative w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto animate-pulse border border-[var(--border)]">
+                                            <MessageCircle className="w-10 h-10 text-[var(--text-light)]" />
                                         </div>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-xl font-black text-[#191f28]">주제를 생성하고 있어요</p>
-                                        <p className="text-[#8b95a1] font-bold">호스트가 대화를 시작하길 기다려주세요.</p>
+                                        <p className="text-xl font-black text-[var(--text-main)]">주제를 생성하고 있어요</p>
+                                        <p className="text-[var(--text-light)] font-bold">호스트가 대화를 시작하길 기다려주세요.</p>
                                     </div>
                                 </div>
                             )}
                         </div>
 
                         <div className="pt-10 space-y-4">
-                            <p className="text-center text-xs font-black text-[#8b95a1] uppercase tracking-widest">Together with</p>
+                            <p className="text-center text-xs font-black text-[var(--text-light)] uppercase tracking-widest">Together with</p>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {channel?.participants.map((p) => (
                                     <motion.div
@@ -204,7 +204,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
                                         title={p.name}
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
-                                        className="w-10 h-10 rounded-full bg-white border border-[#e5e8eb] shadow-sm flex items-center justify-center text-[#191f28] text-xs font-black"
+                                        className="w-10 h-10 rounded-full bg-white border border-[var(--border)] shadow-sm flex items-center justify-center text-[var(--text-main)] text-xs font-black"
                                     >
                                         {p.name[0]}
                                     </motion.div>
