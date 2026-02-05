@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:pages": "next build && npx @cloudflare/next-on-pages",
+    "build:pages": "next build && next-on-pages",
     "start": "next start",
     "lint": "eslint"
   },
@@ -20,6 +20,8 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.14",
+    "vercel": "^44.7.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
