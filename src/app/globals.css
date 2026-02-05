@@ -31,15 +31,15 @@ body {
 }
 
 .toss-btn-primary {
-  @apply toss-btn bg-[#3182f6] text-white hover:bg-[#1b64da];
+  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-[#3182f6] text-white hover:bg-[#1b64da];
 }
 
 .toss-btn-secondary {
-  @apply toss-btn bg-[#e8f3ff] text-[#3182f6] hover:bg-[#d0e8ff];
+  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-[#e8f3ff] text-[#3182f6] hover:bg-[#d0e8ff];
 }
 
 .toss-btn-ghost {
-  @apply toss-btn bg-white text-[#4e5968] border border-[#e5e8eb] hover:bg-[#f9fafb];
+  @apply px-6 py-4 rounded-[18px] font-bold transition-all active:scale-95 flex items-center justify-center gap-2 bg-white text-[#4e5968] border border-[#e5e8eb] hover:bg-[#f9fafb];
 }
 
 .toss-input {
@@ -51,11 +51,11 @@ body {
 }
 
 .toss-badge {
-  @apply px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1;
+  @apply px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 opacity-100;
 }
 
 .toss-badge-blue {
-  @apply toss-badge bg-[#e8f3ff] text-[#3182f6];
+  @apply px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 bg-[#e8f3ff] text-[#3182f6];
 }
 
 .toss-title {
