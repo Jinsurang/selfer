@@ -113,7 +113,7 @@ export default function LandingPage() {
           </div>
 
           <p className="text-[#8b95a1] text-sm pt-20">
-            © 2026 Icebreaker. All rights reserved.
+            © 2026 Selfer. All rights reserved.
           </p>
         </motion.div>
       </div>

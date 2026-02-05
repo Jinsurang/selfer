@@ -53,14 +53,14 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
 
         setLoading(true);
         try {
-            const id = localStorage.getItem(`icebreaker_${code}`) || Math.random().toString(36).substring(2, 9);
+            const id = localStorage.getItem(`selfer_${code}`) || Math.random().toString(36).substring(2, 9);
             const res = await fetch(`/api/channels/${code}/join`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, job, mbti, id }),
             });
             if (res.ok) {
-                localStorage.setItem(`icebreaker_${code}`, id);
+                localStorage.setItem(`selfer_${code}`, id);
                 setJoined(true);
             }
         } catch (err) {
