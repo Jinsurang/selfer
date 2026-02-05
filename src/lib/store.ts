@@ -29,7 +29,7 @@ if (!globalChannels.channels) {
  * Cloudflare KV Helper
  * In Next.js App Router on Cloudflare, bindings are usually on process.env
  */
-const getKV = () => (process.env.ICEBREAKER_KV as unknown as KVNamespace) || null;
+const getKV = () => (process.env.SELFER_KV as unknown as KVNamespace) || null;
 
 export const store = {
     getChannel: async (code: string): Promise<Channel | null> => {
