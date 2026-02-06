@@ -3,23 +3,33 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Zap, Users, ChevronRight, Plus, Minus } from 'lucide-react';
+import { Zap, ChevronRight, Plus, Minus } from 'lucide-react';
 
 export default function LandingPageClient() {
     const router = useRouter();
     const [code, setCode] = useState('');
+    const [name, setName] = useState('');
+    const [job, setJob] = useState('');
+    const [mbti, setMbti] = useState('');
     const [targetParticipants, setTargetParticipants] = useState(2);
     const [loading, setLoading] = useState(false);
 
     const createChannel = async () => {
+        if (!name) return;
         setLoading(true);
         try {
+            const hostId = Math.random().toString(36).substring(2, 9);
             const res = await fetch('/api/channels', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ targetParticipants })
+                body: JSON.stringify({
+                    targetParticipants,
+                    hostInfo: { name, job, mbti, id: hostId }
+                })
             });
             const data = await res.json();
+            // Store host ID to recognize 'me' later
+            localStorage.setItem(`selfer_${data.code}`, hostId);
             router.push(`/host/${data.code}`);
         } catch (err) {
             console.error(err);
@@ -56,10 +66,47 @@ export default function LandingPageClient() {
                         </p>
                     </div>
 
-                    <div className="space-y-4 pt-10">
+                    <div className="space-y-4">
                         {/* Create Channel Area */}
                         <div className="toss-card p-6 space-y-6">
-                            <div className="flex items-center justify-between">
+                            <div className="space-y-4 text-left">
+                                <div>
+                                    <label className="toss-label">호스트 이름 (필수)</label>
+                                    <input
+                                        required
+                                        type="text"
+                                        placeholder="이름을 입력하세요"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        className="toss-input"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="toss-label">직업</label>
+                                        <input
+                                            type="text"
+                                            placeholder="직업"
+                                            value={job}
+                                            onChange={(e) => setJob(e.target.value)}
+                                            className="toss-input"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="toss-label">MBTI</label>
+                                        <input
+                                            type="text"
+                                            maxLength={4}
+                                            placeholder="MBTI"
+                                            value={mbti}
+                                            onChange={(e) => setMbti(e.target.value.toUpperCase())}
+                                            className="toss-input"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-between border-t border-[var(--border)] pt-6">
                                 <span className="text-sm font-bold text-[var(--text-sub)]">참여 목표 인원</span>
                                 <div className="flex items-center gap-4 bg-[var(--background)] px-3 py-2 rounded-xl">
                                     <button
@@ -79,7 +126,7 @@ export default function LandingPageClient() {
                             </div>
 
                             <button
-                                disabled={loading}
+                                disabled={loading || !name}
                                 onClick={createChannel}
                                 className="toss-btn-primary w-full"
                             >

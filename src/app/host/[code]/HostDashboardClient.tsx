@@ -89,24 +89,30 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
 
                         <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                             <AnimatePresence>
-                                {channel.participants.map((p) => (
-                                    <motion.div
-                                        key={p.id}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        className="flex items-center gap-3 p-4 bg-[var(--background)] rounded-[18px] border border-transparent hover:border-[var(--accent)]/20 transition-all"
-                                    >
-                                        <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-black text-[var(--accent)] text-sm shadow-sm border border-[var(--border)]">
-                                            {p.name[0]}
-                                        </div>
-                                        <div>
-                                            <p className="font-bold text-sm text-[var(--text-main)]">{p.name}</p>
-                                            <p className="text-[10px] text-[var(--text-light)] font-medium">
-                                                {p.job || '직업 미입력'} · {p.mbti || 'MBTI 미입력'}
-                                            </p>
-                                        </div>
-                                    </motion.div>
-                                ))}
+                                {channel.participants.map((p) => {
+                                    const isMe = typeof window !== 'undefined' && localStorage.getItem(`selfer_${code}`) === p.id;
+                                    return (
+                                        <motion.div
+                                            key={p.id}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className={`flex items-center gap-3 p-4 bg-[var(--background)] rounded-[18px] border-2 transition-all ${isMe ? 'border-[var(--accent)] shadow-sm' : 'border-transparent'}`}
+                                        >
+                                            <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-sm shadow-sm border ${isMe ? 'bg-[var(--accent)] text-white border-transparent' : 'bg-white text-[var(--accent)] border-[var(--border)]'}`}>
+                                                {p.name[0]}
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-2">
+                                                    <p className="font-bold text-sm text-[var(--text-main)]">{p.name}</p>
+                                                    {isMe && <span className="px-1.5 py-0.5 rounded-md bg-[var(--accent)] text-[8px] font-black text-[#F7F3E9] uppercase">Me</span>}
+                                                </div>
+                                                <p className="text-[10px] text-[var(--text-light)] font-medium">
+                                                    {p.job || '직업 미입력'} · {p.mbti || 'MBTI 미입력'}
+                                                </p>
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
                             </AnimatePresence>
                             {channel.participants.length === 0 && (
                                 <div className="text-center py-10 space-y-3">

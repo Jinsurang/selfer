@@ -4,8 +4,8 @@ import { store } from '@/lib/store';
 
 export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => ({}));
-    const { targetParticipants } = body;
-    const channel = await store.createChannel(targetParticipants);
+    const { targetParticipants, hostInfo } = body;
+    const channel = await store.createChannel(targetParticipants, hostInfo);
     return NextResponse.json(channel);
 }
 

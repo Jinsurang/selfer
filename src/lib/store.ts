@@ -53,11 +53,11 @@ export const store = {
         }
     },
 
-    createChannel: async (targetParticipants?: number): Promise<Channel> => {
+    createChannel: async (targetParticipants?: number, hostInfo?: Participant): Promise<Channel> => {
         const code = Math.random().toString(36).substring(2, 8).toUpperCase();
         const newChannel: Channel = {
             code,
-            participants: [],
+            participants: hostInfo ? [hostInfo] : [],
             topics: [],
             currentTopicIndex: -1,
             targetParticipants,
