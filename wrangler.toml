@@ -6,6 +6,3 @@ pages_build_output_dir = ".vercel/output/static"
 [vars]
 # Add any public vars here if needed
 
-[[kv_namespaces]]
-binding = "SELFER_KV"
-id = "77f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7" # Placeholder, user needs to update or link in dashboard
