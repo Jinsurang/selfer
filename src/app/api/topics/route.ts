@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     }
 
     const participantInfo = channel.participants
-        .map(p => `- Name: ${p.name}, Job: ${p.job || 'Unknown'}, MBTI: ${p.mbti || 'Unknown'}`)
+        .map(p => `- Name: ${p.name}, MBTI: ${p.mbti}, Personality: ${p.personality}, Interests: ${p.interests}`)
         .join('\n');
 
     try {

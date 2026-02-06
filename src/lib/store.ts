@@ -3,6 +3,8 @@ export type Participant = {
     name: string;
     job?: string;
     mbti?: string;
+    personality?: string;
+    interests?: string;
 };
 
 export type Channel = {

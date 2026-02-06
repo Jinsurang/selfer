@@ -10,7 +10,8 @@ export default function LandingPageClient() {
     const [view, setView] = useState<'selection' | 'create' | 'join'>('selection');
     const [code, setCode] = useState('');
     const [name, setName] = useState('');
-    const [job, setJob] = useState('');
+    const [personality, setPersonality] = useState('');
+    const [interests, setInterests] = useState('');
     const [mbti, setMbti] = useState('');
     const [targetParticipants, setTargetParticipants] = useState(2);
     const [loading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ export default function LandingPageClient() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     targetParticipants,
-                    hostInfo: { name, job, mbti, id: hostId }
+                    hostInfo: { name, personality, interests, mbti, id: hostId }
                 })
             });
             const data = await res.json();
@@ -37,6 +38,8 @@ export default function LandingPageClient() {
             setLoading(false);
         }
     };
+
+    const isCreateValid = name && personality && interests && mbti;
 
     const joinChannel = () => {
         if (code.length === 6) {
@@ -120,28 +123,39 @@ export default function LandingPageClient() {
                                                 className="toss-input"
                                             />
                                         </div>
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div>
-                                                <label className="toss-label">직업</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="직업"
-                                                    value={job}
-                                                    onChange={(e) => setJob(e.target.value)}
-                                                    className="toss-input"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="toss-label">MBTI</label>
-                                                <input
-                                                    type="text"
-                                                    maxLength={4}
-                                                    placeholder="MBTI"
-                                                    value={mbti}
-                                                    onChange={(e) => setMbti(e.target.value.toUpperCase())}
-                                                    className="toss-input"
-                                                />
-                                            </div>
+                                        <div>
+                                            <label className="toss-label">나의 성격/성향 (필수)</label>
+                                            <input
+                                                required
+                                                type="text"
+                                                placeholder="예: 차분하고 신중한 편, 외향적임"
+                                                value={personality}
+                                                onChange={(e) => setPersonality(e.target.value)}
+                                                className="toss-input"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="toss-label">요즘 관심사 (필수)</label>
+                                            <input
+                                                required
+                                                type="text"
+                                                placeholder="예: 테니스, 생성형 AI, 맛집 탐방"
+                                                value={interests}
+                                                onChange={(e) => setInterests(e.target.value)}
+                                                className="toss-input"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="toss-label">MBTI (필수)</label>
+                                            <input
+                                                required
+                                                type="text"
+                                                maxLength={4}
+                                                placeholder="MBTI"
+                                                value={mbti}
+                                                onChange={(e) => setMbti(e.target.value.toUpperCase())}
+                                                className="toss-input"
+                                            />
                                         </div>
                                     </div>
 
@@ -165,7 +179,7 @@ export default function LandingPageClient() {
                                     </div>
 
                                     <button
-                                        disabled={loading || !name}
+                                        disabled={loading || !isCreateValid}
                                         onClick={createChannel}
                                         className="toss-btn-primary w-full"
                                     >

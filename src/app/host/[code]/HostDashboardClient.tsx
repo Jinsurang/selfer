@@ -96,19 +96,30 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                                             key={p.id}
                                             initial={{ opacity: 0, x: -10 }}
                                             animate={{ opacity: 1, x: 0 }}
-                                            className={`flex items-center gap-3 p-4 bg-white rounded-[18px] border-2 transition-all ${isMe ? 'border-[var(--accent)] shadow-sm' : 'border-transparent'}`}
+                                            className={`flex flex-col gap-2 p-4 bg-white rounded-[22px] border-2 transition-all ${isMe ? 'border-[var(--accent)] shadow-sm' : 'border-transparent'}`}
                                         >
-                                            <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-sm shadow-sm border ${isMe ? 'bg-[var(--accent)] text-white border-transparent' : 'bg-white text-[var(--accent)] border-[var(--border)]'}`}>
-                                                {p.name[0]}
-                                            </div>
-                                            <div className="flex-1">
-                                                <div className="flex items-center gap-2">
-                                                    <p className="font-bold text-sm text-[var(--text-main)]">{p.name}</p>
-                                                    {isMe && <span className="px-1.5 py-0.5 rounded-md bg-[var(--accent)] text-[8px] font-black text-[#F7F3E9] uppercase">Me</span>}
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-sm shadow-sm border ${isMe ? 'bg-[var(--accent)] text-white border-transparent' : 'bg-white text-[var(--accent)] border-[var(--border)]'}`}>
+                                                    {p.name[0]}
                                                 </div>
-                                                <p className="text-[10px] text-[var(--text-light)] font-medium">
-                                                    {p.job || '직업 미입력'} · {p.mbti || 'MBTI 미입력'}
-                                                </p>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <p className="font-bold text-sm text-[var(--text-main)]">{p.name}</p>
+                                                        {isMe && <span className="px-1.5 py-0.5 rounded-md bg-[var(--accent)] text-[8px] font-black text-[#F7F3E9] uppercase">Me</span>}
+                                                    </div>
+                                                    <p className="text-[10px] text-[var(--accent)] font-black uppercase tracking-wider">{p.mbti}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="pl-1 space-y-1">
+                                                <div className="flex items-start gap-1.5">
+                                                    <span className="text-[9px] font-black text-[var(--text-light)] shrink-0 mt-0.5 uppercase">Life</span>
+                                                    <p className="text-[11px] text-[var(--text-sub)] font-medium leading-tight">{p.interests}</p>
+                                                </div>
+                                                <div className="flex items-start gap-1.5">
+                                                    <span className="text-[9px] font-black text-[var(--text-light)] shrink-0 mt-0.5 uppercase">Self</span>
+                                                    <p className="text-[11px] text-[var(--text-sub)] font-medium leading-tight">{p.personality}</p>
+                                                </div>
                                             </div>
                                         </motion.div>
                                     );

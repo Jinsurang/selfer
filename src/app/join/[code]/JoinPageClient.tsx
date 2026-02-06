@@ -18,12 +18,15 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
     const router = useRouter();
 
     const [name, setName] = useState('');
-    const [job, setJob] = useState('');
+    const [personality, setPersonality] = useState('');
+    const [interests, setInterests] = useState('');
     const [mbti, setMbti] = useState('');
     const [joined, setJoined] = useState(false);
     const [channel, setChannel] = useState<Channel | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const isJoinValid = name && personality && interests && mbti;
 
     const fetchChannel = async () => {
         try {
@@ -49,7 +52,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
 
     const handleJoin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name) return;
+        if (!isJoinValid) return;
 
         setLoading(true);
         try {
@@ -57,7 +60,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
             const res = await fetch(`/api/channels/${code}/join`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, job, mbti, id }),
+                body: JSON.stringify({ name, personality, interests, mbti, id }),
             });
             if (res.ok) {
                 localStorage.setItem(`selfer_${code}`, id);
@@ -111,25 +114,39 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
                                 </div>
 
                                 <div>
-                                    <label className="toss-label">직업 (선택)</label>
+                                    <label className="toss-label">나의 성격/성향 (필수)</label>
                                     <input
+                                        required
                                         type="text"
-                                        placeholder="직업을 입력하세요"
-                                        value={job}
-                                        onChange={(e) => setJob(e.target.value)}
+                                        placeholder="예: 차분하고 신중한 편, 외향적임"
+                                        value={personality}
+                                        onChange={(e) => setPersonality(e.target.value)}
                                         className="toss-input"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="toss-label">MBTI (선택)</label>
+                                    <label className="toss-label">요즘 관심사 (필수)</label>
+                                    <input
+                                        required
+                                        type="text"
+                                        placeholder="예: 테니스, 생성형 AI, 맛집 탐방"
+                                        value={interests}
+                                        onChange={(e) => setInterests(e.target.value)}
+                                        className="toss-input"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="toss-label">MBTI (필수)</label>
                                     <div className="relative">
                                         <select
+                                            required
                                             value={mbti}
                                             onChange={(e) => setMbti(e.target.value)}
                                             className="toss-input appearance-none pr-10"
                                         >
-                                            <option value="">선택 안 함</option>
+                                            <option value="" disabled>MBTI를 선택해 주세요</option>
                                             {MBTIs.map(m => <option key={m} value={m}>{m}</option>)}
                                         </select>
                                         <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--text-light)]">
@@ -141,7 +158,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
 
                             <button
                                 type="submit"
-                                disabled={loading || !name}
+                                disabled={loading || !isJoinValid}
                                 className="toss-btn-primary w-full py-5 text-lg"
                             >
                                 {loading ? '참여 중...' : '입장하기'}

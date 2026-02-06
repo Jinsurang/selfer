@@ -8,16 +8,17 @@ export async function POST(
 ) {
     const { code } = await params;
     const body = await req.json();
-    const { name, job, mbti, id } = body;
+    const { name, personality, interests, mbti, id } = body;
 
-    if (!name) {
-        return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+    if (!name || !personality || !interests || !mbti) {
+        return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
     }
 
     const participant: Participant = {
         id: id || Math.random().toString(36).substring(2, 9),
         name,
-        job,
+        personality,
+        interests,
         mbti
     };
 
