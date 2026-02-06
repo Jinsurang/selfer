@@ -18,8 +18,17 @@ export async function POST(req: NextRequest) {
     }
 
     const participantInfo = channel.participants
-        .map(p => `- Name: ${p.name}, MBTI: ${p.mbti}, Personality: ${p.personality}, Interests: ${p.interests}`)
+        .map(p => `- Name: ${p.name}, Age: ${p.age || 'N/A'}, MBTI: ${p.mbti}, Interests: ${p.interests.join(', ')}`)
         .join('\n');
+
+    // Move fallbackTopics definition up
+    const fallbackTopics = [
+        "최근에 가장 재미있게 본 영화나 드라마가 있나요?",
+        "나만 아는 맛집이나 장소가 있을까요?",
+        "다음에 기회가 된다면 꼭 가보고 싶은 여행지는 어디인가요?",
+        "본인의 MBTI와 실제 성격이 얼마나 닮았다고 생각하시나요?",
+        "인생의 터닝포인트가 되었던 사소한 경험이 있을까요?"
+    ];
 
     try {
         if (!process.env.GEMINI_API_KEY) {
@@ -36,7 +45,7 @@ export async function POST(req: NextRequest) {
         });
 
         const prompt = `당신은 세계 최고의 아이스브레이킹 및 심리 전문가입니다. 
-아래 참가자들의 상세 프로필(이름, MBTI, 성격, 관심사)을 분석하여, 이들이 서로의 '새로운 면모'를 발견하고 깊이 있게 연결될 수 있는 질문 5개를 생성하세요.
+아래 참가자들의 상세 프로필(이름, 나이, MBTI, 관심사)을 분석하여, 이들이 서로의 '새로운 면모'를 발견하고 깊이 있게 연결될 수 있는 질문 5개를 생성하세요.
 
 [참가자 데이터]
 ${participantInfo}
@@ -66,14 +75,6 @@ Example format: ["질문1", "질문2", "질문3", "질문4", "질문5"]`;
         return NextResponse.json({ topics });
     } catch (error) {
         console.error('Gemini AI Topic Generation Error:', error);
-        // Fallback topics
-        const fallbackTopics = [
-            "최근에 가장 재미있게 본 영화나 드라마가 있나요?",
-            "나만 아는 맛집이나 장소가 있을까요?",
-            "다음에 기회가 된다면 꼭 가보고 싶은 여행지는 어디인가요?",
-            "본인의 MBTI와 실제 성격이 얼마나 닮았다고 생각하시나요?",
-            "인생의 터닝포인트가 되었던 사소한 경험이 있을까요?"
-        ];
         await store.setTopics(code, fallbackTopics);
         return NextResponse.json({ topics: fallbackTopics, warning: 'Using fallback topics due to AI error/missing key' });
     }

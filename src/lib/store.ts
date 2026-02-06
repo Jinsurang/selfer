@@ -1,10 +1,9 @@
 export type Participant = {
     id: string;
     name: string;
-    job?: string;
+    age?: number;
     mbti?: string;
-    personality?: string;
-    interests?: string;
+    interests: string[]; // Emoji-based interests
 };
 
 export type Channel = {
@@ -13,6 +12,7 @@ export type Channel = {
     topics: string[];
     currentTopicIndex: number;
     targetParticipants?: number;
+    status: 'waiting' | 'playing';
 };
 
 // Types for Cloudflare KV binding
@@ -63,6 +63,7 @@ export const store = {
             topics: [],
             currentTopicIndex: -1,
             targetParticipants,
+            status: 'waiting',
         };
 
         await store.saveChannel(newChannel);

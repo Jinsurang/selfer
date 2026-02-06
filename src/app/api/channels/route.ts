@@ -31,6 +31,16 @@ export async function PATCH(req: NextRequest) {
 
     if (!code) return NextResponse.json({ error: 'Code required' }, { status: 400 });
 
+    if (action === 'start') {
+        const channel = await store.getChannel(code);
+        if (channel) {
+            channel.status = 'playing';
+            await store.saveChannel(channel);
+            return NextResponse.json({ success: true });
+        }
+        return NextResponse.json({ error: 'Channel not found' }, { status: 404 });
+    }
+
     if (action === 'next') {
         const success = await store.nextTopic(code);
         return NextResponse.json({ success });

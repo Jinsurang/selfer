@@ -10,14 +10,33 @@ export default function LandingPageClient() {
     const [view, setView] = useState<'selection' | 'create' | 'join'>('selection');
     const [code, setCode] = useState('');
     const [name, setName] = useState('');
-    const [personality, setPersonality] = useState('');
-    const [interests, setInterests] = useState('');
+    const [age, setAge] = useState<number | ''>('');
     const [mbti, setMbti] = useState('');
+    const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
     const [targetParticipants, setTargetParticipants] = useState(2);
     const [loading, setLoading] = useState(false);
 
+    const INTEREST_OPTIONS = [
+        { label: '연애/결혼', emoji: '❤️' },
+        { label: '경제/사업', emoji: '💰' },
+        { label: '시험/자격증', emoji: '📚' },
+        { label: '패션/쇼핑', emoji: '🛍️' },
+        { label: '운동/건강', emoji: '💪' },
+        { label: '여행/캠핑', emoji: '🏕️' },
+        { label: '미식/카페', emoji: '☕' },
+        { label: '반려동물', emoji: '🐶' },
+        { label: 'AI/IT', emoji: '🤖' },
+    ];
+
+    const MBTI_OPTIONS = [
+        'ISTJ', 'ISFJ', 'INFJ', 'INTJ',
+        'ISTP', 'ISFP', 'INFP', 'INTP',
+        'ESTP', 'ESFP', 'ENFP', 'ENTP',
+        'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ'
+    ];
+
     const createChannel = async () => {
-        if (!name) return;
+        if (!name || !mbti || selectedInterests.length === 0) return;
         setLoading(true);
         try {
             const hostId = Math.random().toString(36).substring(2, 9);
@@ -26,11 +45,16 @@ export default function LandingPageClient() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     targetParticipants,
-                    hostInfo: { name, personality, interests, mbti, id: hostId }
+                    hostInfo: {
+                        name,
+                        age: age === '' ? undefined : Number(age),
+                        mbti,
+                        interests: selectedInterests,
+                        id: hostId
+                    }
                 })
             });
             const data = await res.json();
-            // Store host ID to recognize 'me' later
             localStorage.setItem(`selfer_${data.code}`, hostId);
             router.push(`/host/${data.code}`);
         } catch (err) {
@@ -39,7 +63,7 @@ export default function LandingPageClient() {
         }
     };
 
-    const isCreateValid = name && personality && interests && mbti;
+    const isCreateValid = name && mbti && selectedInterests.length > 0;
 
     const joinChannel = () => {
         if (code.length === 6) {
@@ -112,50 +136,69 @@ export default function LandingPageClient() {
                             >
                                 <div className="toss-card p-6 space-y-6">
                                     <div className="space-y-4 text-left">
-                                        <div>
-                                            <label className="toss-label">호스트 이름 (필수)</label>
-                                            <input
-                                                required
-                                                type="text"
-                                                placeholder="이름을 입력하세요"
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
-                                                className="toss-input"
-                                            />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="toss-label text-left block">이름 (필수)</label>
+                                                <input
+                                                    required
+                                                    type="text"
+                                                    placeholder="이름"
+                                                    value={name}
+                                                    onChange={(e) => setName(e.target.value)}
+                                                    className="toss-input"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="toss-label text-left block">나이 (선택)</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="나이"
+                                                    value={age}
+                                                    onChange={(e) => setAge(e.target.value === '' ? '' : Number(e.target.value))}
+                                                    className="toss-input"
+                                                />
+                                            </div>
                                         </div>
+
                                         <div>
-                                            <label className="toss-label">나의 성격/성향 (필수)</label>
-                                            <input
+                                            <label className="toss-label text-left block">MBTI (필수)</label>
+                                            <select
                                                 required
-                                                type="text"
-                                                placeholder="예: 차분하고 신중한 편, 외향적임"
-                                                value={personality}
-                                                onChange={(e) => setPersonality(e.target.value)}
-                                                className="toss-input"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="toss-label">요즘 관심사 (필수)</label>
-                                            <input
-                                                required
-                                                type="text"
-                                                placeholder="예: 테니스, 생성형 AI, 맛집 탐방"
-                                                value={interests}
-                                                onChange={(e) => setInterests(e.target.value)}
-                                                className="toss-input"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="toss-label">MBTI (필수)</label>
-                                            <input
-                                                required
-                                                type="text"
-                                                maxLength={4}
-                                                placeholder="MBTI"
                                                 value={mbti}
-                                                onChange={(e) => setMbti(e.target.value.toUpperCase())}
-                                                className="toss-input"
-                                            />
+                                                onChange={(e) => setMbti(e.target.value)}
+                                                className="toss-input appearance-none bg-white cursor-pointer"
+                                            >
+                                                <option value="" disabled>MBTI 선택</option>
+                                                {MBTI_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                            </select>
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <label className="toss-label text-left block">주요 관심사 (필수 / 중복 가능)</label>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                {INTEREST_OPTIONS.map((opt) => {
+                                                    const isSelected = selectedInterests.includes(opt.label);
+                                                    return (
+                                                        <button
+                                                            key={opt.label}
+                                                            onClick={() => {
+                                                                if (isSelected) {
+                                                                    setSelectedInterests(selectedInterests.filter(i => i !== opt.label));
+                                                                } else {
+                                                                    setSelectedInterests([...selectedInterests, opt.label]);
+                                                                }
+                                                            }}
+                                                            className={`flex flex-col items-center gap-1.5 p-3 rounded-2xl border-2 transition-all ${isSelected
+                                                                ? 'border-[var(--accent)] bg-[#1B4332]/5 shadow-sm'
+                                                                : 'border-[var(--border)] bg-gray-50/50 grayscale opacity-60 hover:opacity-100 hover:grayscale-0'
+                                                                }`}
+                                                        >
+                                                            <span className="text-2xl">{opt.emoji}</span>
+                                                            <span className={`text-[11px] font-bold ${isSelected ? 'text-[var(--accent)]' : 'text-[var(--text-light)]'}`}>{opt.label}</span>
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
                                     </div>
 

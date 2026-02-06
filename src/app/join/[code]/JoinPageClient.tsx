@@ -18,15 +18,27 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
     const router = useRouter();
 
     const [name, setName] = useState('');
-    const [personality, setPersonality] = useState('');
-    const [interests, setInterests] = useState('');
+    const [age, setAge] = useState<number | ''>('');
     const [mbti, setMbti] = useState('');
+    const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
     const [joined, setJoined] = useState(false);
     const [channel, setChannel] = useState<Channel | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const isJoinValid = name && personality && interests && mbti;
+    const INTEREST_OPTIONS = [
+        { label: '연애/결혼', emoji: '❤️' },
+        { label: '경제/사업', emoji: '💰' },
+        { label: '시험/자격증', emoji: '📚' },
+        { label: '패션/쇼핑', emoji: '🛍️' },
+        { label: '운동/건강', emoji: '💪' },
+        { label: '여행/캠핑', emoji: '🏕️' },
+        { label: '미식/카페', emoji: '☕' },
+        { label: '반려동물', emoji: '🐶' },
+        { label: 'AI/IT', emoji: '🤖' },
+    ];
+
+    const isJoinValid = name && mbti && selectedInterests.length > 0;
 
     const fetchChannel = async () => {
         try {
@@ -60,7 +72,13 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
             const res = await fetch(`/api/channels/${code}/join`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, personality, interests, mbti, id }),
+                body: JSON.stringify({
+                    name,
+                    age: age === '' ? undefined : Number(age),
+                    mbti,
+                    interests: selectedInterests,
+                    id
+                }),
             });
             if (res.ok) {
                 localStorage.setItem(`selfer_${code}`, id);
@@ -101,57 +119,69 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
 
                         <form onSubmit={handleJoin} className="toss-card p-8 space-y-8">
                             <div className="space-y-6">
-                                <div>
-                                    <label className="toss-label">이름 (필수)</label>
-                                    <input
-                                        required
-                                        type="text"
-                                        placeholder="이름을 입력하세요"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className="toss-input"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="toss-label">나의 성격/성향 (필수)</label>
-                                    <input
-                                        required
-                                        type="text"
-                                        placeholder="예: 차분하고 신중한 편, 외향적임"
-                                        value={personality}
-                                        onChange={(e) => setPersonality(e.target.value)}
-                                        className="toss-input"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="toss-label">요즘 관심사 (필수)</label>
-                                    <input
-                                        required
-                                        type="text"
-                                        placeholder="예: 테니스, 생성형 AI, 맛집 탐방"
-                                        value={interests}
-                                        onChange={(e) => setInterests(e.target.value)}
-                                        className="toss-input"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="toss-label">MBTI (필수)</label>
-                                    <div className="relative">
-                                        <select
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="toss-label text-left block">이름 (필수)</label>
+                                        <input
                                             required
-                                            value={mbti}
-                                            onChange={(e) => setMbti(e.target.value)}
-                                            className="toss-input appearance-none pr-10"
-                                        >
-                                            <option value="" disabled>MBTI를 선택해 주세요</option>
-                                            {MBTIs.map(m => <option key={m} value={m}>{m}</option>)}
-                                        </select>
-                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--text-light)]">
-                                            <ChevronRight className="w-5 h-5 rotate-90" />
-                                        </div>
+                                            type="text"
+                                            placeholder="이름"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            className="toss-input"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="toss-label text-left block">나이 (선택)</label>
+                                        <input
+                                            type="number"
+                                            placeholder="나이"
+                                            value={age}
+                                            onChange={(e) => setAge(e.target.value === '' ? '' : Number(e.target.value))}
+                                            className="toss-input"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="toss-label text-left block">MBTI (필수)</label>
+                                    <select
+                                        required
+                                        value={mbti}
+                                        onChange={(e) => setMbti(e.target.value)}
+                                        className="toss-input appearance-none bg-white cursor-pointer"
+                                    >
+                                        <option value="" disabled>MBTI 선택</option>
+                                        {MBTIs.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                    </select>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <label className="toss-label text-left block">주요 관심사 (필수 / 중복 가능)</label>
+                                    <div className="grid grid-cols-3 gap-2">
+                                        {INTEREST_OPTIONS.map((opt) => {
+                                            const isSelected = selectedInterests.includes(opt.label);
+                                            return (
+                                                <button
+                                                    key={opt.label}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        if (isSelected) {
+                                                            setSelectedInterests(selectedInterests.filter(i => i !== opt.label));
+                                                        } else {
+                                                            setSelectedInterests([...selectedInterests, opt.label]);
+                                                        }
+                                                    }}
+                                                    className={`flex flex-col items-center gap-1.5 p-3 rounded-2xl border-2 transition-all ${isSelected
+                                                        ? 'border-[var(--accent)] bg-[#1B4332]/5 shadow-sm'
+                                                        : 'border-[var(--border)] bg-gray-50/50 grayscale opacity-60 hover:opacity-100 hover:grayscale-0'
+                                                        }`}
+                                                >
+                                                    <span className="text-2xl">{opt.emoji}</span>
+                                                    <span className={`text-[11px] font-bold ${isSelected ? 'text-[var(--accent)]' : 'text-[var(--text-light)]'}`}>{opt.label}</span>
+                                                </button>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </div>
