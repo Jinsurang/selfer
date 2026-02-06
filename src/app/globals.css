@@ -43,7 +43,7 @@ body {
 }
 
 .toss-input {
-  @apply w-full px-4 py-4 rounded-[16px] border border-transparent bg-[#F2EDE1] text-[#1B4332] placeholder-[#9CAA9D] outline-none focus:bg-white focus:border-[#1B4332] transition-all;
+  @apply w-full px-4 py-4 rounded-[16px] border border-[#E8E2D2] bg-white text-[#1B4332] placeholder-[#9CAA9D] outline-none focus:border-[#1B4332] transition-all;
 }
 
 .toss-label {

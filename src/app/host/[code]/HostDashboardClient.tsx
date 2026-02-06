@@ -71,7 +71,7 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
 
                         <div className="w-full space-y-4">
                             <p className="text-xs text-[var(--text-light)] text-center font-bold">QR 코드를 스캔하여 입장하세요</p>
-                            <div className="flex items-center gap-2 p-3 bg-[var(--background)] rounded-xl text-[11px] font-medium text-[var(--text-sub)] break-all border border-[var(--border)]">
+                            <div className="flex items-center gap-2 p-3 bg-white rounded-xl text-[11px] font-medium text-[var(--text-sub)] break-all border border-[var(--border)]">
                                 <Share2 className="w-3 h-3 text-[var(--accent)] shrink-0" />
                                 {joinUrl.replace('http://', '').replace('https://', '')}
                             </div>
@@ -96,7 +96,7 @@ export default function HostDashboardClient({ params }: { params: Promise<{ code
                                             key={p.id}
                                             initial={{ opacity: 0, x: -10 }}
                                             animate={{ opacity: 1, x: 0 }}
-                                            className={`flex items-center gap-3 p-4 bg-[var(--background)] rounded-[18px] border-2 transition-all ${isMe ? 'border-[var(--accent)] shadow-sm' : 'border-transparent'}`}
+                                            className={`flex items-center gap-3 p-4 bg-white rounded-[18px] border-2 transition-all ${isMe ? 'border-[var(--accent)] shadow-sm' : 'border-transparent'}`}
                                         >
                                             <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-sm shadow-sm border ${isMe ? 'bg-[var(--accent)] text-white border-transparent' : 'bg-white text-[var(--accent)] border-[var(--border)]'}`}>
                                                 {p.name[0]}

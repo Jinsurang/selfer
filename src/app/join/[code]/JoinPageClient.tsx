@@ -71,7 +71,7 @@ export default function JoinPageClient({ params }: { params: Promise<{ code: str
     };
 
     if (error) return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center space-y-6 bg-[#f2f4f6]">
+        <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center space-y-6 bg-[var(--background)]">
             <div className="toss-card p-10 space-y-4">
                 <p className="text-red-500 font-bold">{error}</p>
                 <button onClick={() => router.push('/')} className="toss-btn-ghost w-full">홈으로 돌아가기</button>
