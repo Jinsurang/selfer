@@ -53,16 +53,17 @@ export default function LandingPageClient() {
                     className="w-full text-center space-y-12"
                 >
                     <div className="space-y-4">
-                        <div className="flex justify-center mb-6">
-                            <div className="w-16 h-16 bg-[#1B4332] rounded-[22px] shadow-lg shadow-green-900/20 flex items-center justify-center">
-                                <Zap className="w-8 h-8 text-[#F7F3E9] fill-[#F7F3E9]" />
-                            </div>
+                        <div className="flex justify-center mb-10">
+                            <motion.img
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                src="/selfer_logo.png"
+                                alt="Selfer"
+                                className="h-14 w-auto object-contain"
+                            />
                         </div>
-                        <h1 className="toss-title">
-                            현명하게 시작하세요
-                        </h1>
                         <p className="toss-subtitle">
-                            어색한 첫 만남을<br />AI가 추천하는 주제로 자연스럽게 바꾸세요.
+                            맞춤형 대화를 통해<br />또 다른 나를 발견하는 시간
                         </p>
                     </div>
 
