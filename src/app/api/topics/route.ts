@@ -26,21 +26,41 @@ export async function POST(req: NextRequest) {
             throw new Error('GEMINI_API_KEY missing');
         }
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const model = genAI.getGenerativeModel({
+            model: 'gemini-1.5-flash',
+            generationConfig: {
+                temperature: 0.9,
+                topP: 0.95,
+                maxOutputTokens: 1024,
+            }
+        });
 
-        const prompt = `You are an icebreaking expert. Based on the following participant list, suggest 3-5 interesting conversation topics or questions that everyone can participate in. 
-        Return ONLY the topics as a JSON array of strings. Do not include any other text or markdown formatting.
-        
-        Participants:
-        ${participantInfo}`;
+        const prompt = `당신은 세계 최고의 아이스브레이킹 및 심리 전문가입니다. 
+아래 참가자들의 상세 프로필(이름, MBTI, 성격, 관심사)을 분석하여, 이들이 서로의 '새로운 면모'를 발견하고 깊이 있게 연결될 수 있는 질문 5개를 생성하세요.
+
+[참가자 데이터]
+${participantInfo}
+
+[알고리즘 가이드라인]
+1. **다양성 (Diversity)**: 다음 5가지 카테고리에서 하나씩 질문을 뽑으세요.
+   - (1) 공통점 기반: 참가자들의 공통된 관심사나 성향에서 출발하는 질문
+   - (2) 의외성 발견: 겉보기와는 다른 반전 매력을 끌어낼 수 있는 질문
+   - (3) 가치관 탐색: 인생에서 중요하게 생각하는 가치나 철학에 대한 질문
+   - (4) 가벼운 취향: 최근의 사소하지만 즐거운 일상에 대한 질문
+   - (5) IF/상상력: 특정 상황을 가정하고 서로의 반응을 예측해보는 재미있는 질문
+2. **개인화 (Personalization)**: 질문 안에 최소 1명 이상의 이름이나 관심사 키워드를 직접 언급하여 '우리만을 위한 질문'이라는 느낌을 주세요.
+3. **톤앤매너**: 따뜻하고, 호기심 넘치며, 세련되게 질문하세요. "어떤 것을 좋아하세요?" 같은 뻔한 질문은 배제합니다.
+4. **언어**: 반드시 한국어로 답변하세요.
+
+Return ONLY the topics as a JSON array of strings. Do not include markdown formatting or 'json' tags. 
+Example format: ["질문1", "질문2", "질문3", "질문4", "질문5"]`;
 
         const result = await model.generateContent(prompt);
         const text = result.response.text();
 
-        // Clean up text in case Gemini wraps it in code blocks
         const cleanedText = text.replace(/```json|```/g, '').trim();
         const jsonMatch = cleanedText.match(/\[[\s\S]*\]/);
-        const topics = jsonMatch ? JSON.parse(jsonMatch[0]) : ['What is your favorite weekend activity?', 'What was your first impression of the group?', 'If you could have any superpower, what would it be?'];
+        const topics = jsonMatch ? JSON.parse(jsonMatch[0]) : fallbackTopics;
 
         await store.setTopics(code, topics);
         return NextResponse.json({ topics });
